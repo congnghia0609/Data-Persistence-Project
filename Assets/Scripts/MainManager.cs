@@ -10,22 +10,25 @@ public class MainManager : MonoBehaviour
     public int LineCount = 6;
     public Rigidbody Ball;
 
+    public Text BestScoreText;
     public Text ScoreText;
     public GameObject GameOverText;
-    
+    public GameObject GuideText;
+
     private bool m_Started = false;
     private int m_Points;
-    
+
     private bool m_GameOver = false;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
+        UpdateBestScoreText();
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -45,6 +48,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 m_Started = true;
+                GuideText.SetActive(false);
                 float randomDirection = Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
                 forceDir.Normalize();
@@ -72,5 +76,18 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        GuideText.SetActive(true);
+    }
+
+    public void UpdateBestScoreText()
+    {
+        if (DataManager.Instance.recordData.BestName.Length > 0 && DataManager.Instance.recordData.BestScore > 0)
+        {
+            BestScoreText.text = "Best Score: " + DataManager.Instance.recordData.BestName + ": " + DataManager.Instance.recordData.BestScore;
+        }
+        else
+        {
+            BestScoreText.text = "Best Score";
+        }
     }
 }
