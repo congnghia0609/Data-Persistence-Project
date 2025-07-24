@@ -50,9 +50,21 @@ public class RecordData
     public string BestName;
     public int BestScore;
 
+    public RecordData()
+    {
+        BestName = "";
+        BestScore = 0;
+    }
+
     public RecordData(string bestName, int bestScore)
     {
         BestName = bestName;
         BestScore = bestScore;
+    }
+
+    public RecordData(RecordData recordData)
+    {
+        BestName = recordData.BestName;
+        BestScore = recordData.BestScore;
     }
 }
